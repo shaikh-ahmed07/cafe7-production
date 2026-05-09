@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wraps Menu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F5F5DC 0%, #E8DCC4 50%, #D2B48C 100%);
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            padding: 0;
+             padding-top: 100px;
+        }
+
+      .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #b56b33 !important;
+    font-family: 'Georgia', serif;
+    margin-right: 20px !important;
+}
+
+.logo {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: color 0.3s;
+    padding: 8px 15px !important;
+}
+
+.nav-link:hover {
+    color: #b56b33 !important;
+}
+
+.dropdown-item {
+    text-transform: capitalize;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #b56b33 !important;
+}
+
+.active-page {
+    color: #b56b33 !important;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Search form spacing */
+.navbar .d-flex {
+    margin: 0 15px;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+}
+
+.navbar .form-control {
+    min-width: 200px;
+    width: auto;
+}
+
+.navbar .btn {
+    white-space: nowrap;
+}
+
+/* Cart link spacing */
+.navbar a[href="cart.html"] {
+    margin-left: 15px !important;
+    white-space: nowrap;
+}
+
+.cart-count {
+    background: #b56b33;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Add padding to body so content doesn't hide under fixed navbar */
+body {
+    padding-top: 100px;
+}
+
+/* Mobile responsive */
+/* Navbar responsive */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        padding-top: 15px;
+    }
+    
+    .navbar .d-flex {
+        margin: 15px 0;
+        width: 100%;
+    }
+    
+    .navbar .form-control {
+        min-width: auto;
+        flex: 1;
+    }
+    
+    .navbar a[href="cart.html"] {
+        margin: 15px 0 !important;
+        display: block;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    .navbar .form-control {
+        min-width: 150px;
+    }
+}
+
+/* Main Section */
+.main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.head {
+    text-align: center;
+    font-size: 48px;
+    color: #3E2723;
+    margin: 40px 0 60px 0;
+    font-weight: 300;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F5E6D3 100%);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(62, 39, 35, 0.15);
+    border: 3px solid #8B4513;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px;
+}
+
+.wrap-item {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #FAF0E6 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(101, 67, 33, 0.2);
+    transition: all 0.4s ease;
+    border: 2px solid #D2B48C;
+    text-align: center;
+}
+
+.wrap-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(101, 67, 33, 0.3);
+    border-color: #8B4513;
+}
+
+.pic {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid #D2B48C;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.wrap-item:hover .pic {
+    border-color: #8B4513;
+}
+
+.text {
+    color: #3E2723;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    line-height: 1.4;
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.price {
+    color: #e53935;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.price:hover {
+    color: #b71c1c;
+}
+
+.btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #654321 0%, #8B4513 100%);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(101, 67, 33, 0.4);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #8B4513;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F5E6D3 100%);
+    color: #8B4513;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background: linear-gradient(to bottom, #8B4513 0%, #A0522D 100%);
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+.quantity-input {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid #D2B48C;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3E2723;
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #8B4513;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.2);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Responsive like wrap CSS */
+@media (max-width: 768px) {
+    .main {
+        padding: 15px;
+    }
+
+    .head {
+        font-size: 32px;
+        padding: 15px;
+        letter-spacing: 3px;
+        margin: 20px 5px 30px 5px;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        padding: 10px;
+    }
+
+    .wrap-item {
+        padding: 10px;
+    }
+
+    .pic {
+        height: 150px;
+        margin-bottom: 10px;
+    }
+
+    .text {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .price {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .quantity-input {
+        width: 45px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .quantity {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .price-section {
+        gap: 10px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 10px;
+    }
+
+    .head {
+        font-size: 24px;
+        padding: 12px;
+        letter-spacing: 2px;
+        margin: 15px 5px 25px 5px;
+    }
+
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        padding: 5px;
+    }
+
+    .wrap-item {
+        padding: 8px;
+    }
+
+    .pic {
+        height: 130px;
+        margin-bottom: 8px;
+    }
+
+    .text {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .price {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .quantity-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .quantity-input {
+        width: 40px;
+        height: 28px;
+        font-size: 13px;
+    }
+
+    .quantity {
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .price-section {
+        gap: 8px;
+        margin-top: 8px;
+    }
+}
+
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="container-fluid">
+<img alt="Cafe 7 Logo" class="logo" height="70px" src="images/logo.webp"/>
+<a class="navbar-brand" href="menu.html">Cafe 7</a>
+<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item">
+<a class="nav-link" href="index.html">home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="menu.html">menu</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">specials</a>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="coffee.html">coffee</a></li>
+</ul>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="contact.html">contact us</a>
+</li>
+</ul>
+<form class="d-flex" role="search">
+<input aria-label="Search" class="form-control me-2" placeholder="Search Menu Items" type="search"/>
+<button class="btn btn-outline-success search-btn" type="submit">Search</button>
+</form>
+<a href="cart.html" style="text-decoration: none; color: #007bff; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 2px solid #007bff; border-radius: 8px; transition: all 0.3s;">
+<i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count">0</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<div class="main">
+<h1 class="head">Shawarma</h1>
+<div class="container">
+<div class="wrap-item">
+<a href="#">
+<img alt="chicken shawarma" class="pic" src="images/shawarma.jfif"/>
+<h1 class="text">chicken shawarma</h1>
+<div class="price-section">
+<span class="price">₹100</span>
+<button class="btn" data-item-id="51" data-item-name="chicken shawarma">Add to Cart</button>
+<div class="quantity">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="wrap-item">
+<a href="#">
+<img alt="special shwarma" class="pic" src="images/special shawarma.jfif"/>
+<h1 class="text">special shwarma</h1>
+<div class="price-section">
+<span class="price">₹140</span>
+<button class="btn" data-item-id="55" data-item-name="special shwarma">Add to Cart</button>
+<div class="quantity">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="wrap-item">
+<a href="#">
+<img alt="specail spicy cheese shwarma" class="pic" src="images/chicken  cheese shawarma.jfif"/>
+<h1 class="text">specail spicy cheese shwarma</h1>
+<div class="price-section">
+<span class="price">₹150</span>
+<button class="btn" data-item-id="54" data-item-name="specail spicy cheese shwarma">Add to Cart</button>
+<div class="quantity">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="wrap-item">
+<a href="#">
+<img alt="Dry friut shawarma" class="pic" src="images/dry fruits shawarma.jfif"/>
+<h1 class="text">Dry friut shawarma</h1>
+<div class="price-section">
+<span class="price">₹150</span>
+<button class="btn" data-item-id="53" data-item-name="Dry friut shawarma">Add to Cart</button>
+<div class="quantity">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+        // Highlight the active navbar link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = location.pathname.split("/").pop();
+            document.querySelectorAll('.navbar-nav .nav-link, .dropdown-item').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active-page');
+                }
+            });
+        });
+    </script>
+<script src="main.js"></script>
+
+
+
+
+<script>
+async function updateCartBadge() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) return;
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        if (!res.ok) return;
+        var data = await res.json();
+        var count = data.item_count || 0;
+        document.querySelectorAll('.cart-count').forEach(function(el) {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+document.addEventListener('click', async function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains('btn')) return;
+    if (btn.textContent.indexOf('Add') === -1 && btn.textContent.indexOf('Adding') === -1) return;
+
+    var itemId = btn.getAttribute('data-item-id');
+    if (!itemId) return;
+
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) {
+        if (confirm('Please login to add items to cart. Go to login page?')) {
+            window.location.href = 'login.html';
+        }
+        return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    var card = btn.closest('.content') || btn.closest('.coffee-item') ||
+               btn.closest('.shake-item') || btn.closest('.menu-item') ||
+               btn.closest('.desert-item') || btn.parentElement;
+    var qtyInput = card ? card.querySelector('.quantity-input') : null;
+    var qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+
+    var original = btn.textContent;
+    btn.textContent = 'Adding...';
+    btn.disabled = true;
+
+    try {
+        var res = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({menu_item_id: parseInt(itemId), quantity: qty})
+        });
+        var data = await res.json();
+        if (res.ok) {
+            btn.textContent = 'Added!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            // Update badge immediately after adding
+            updateCartBadge();
+            setTimeout(function() {
+                btn.textContent = original;
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 1500);
+        } else if (res.status === 401) {
+            localStorage.removeItem('cafe7_access_token');
+            alert('Session expired. Please login again.');
+            window.location.href = 'login.html';
+        } else {
+            alert(data.error || 'Could not add to cart');
+            btn.textContent = original; btn.disabled = false;
+        }
+    } catch(err) {
+        alert('Server error.');
+        btn.textContent = original; btn.disabled = false;
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var user = localStorage.getItem('cafe7_user');
+    if (!user) return;
+    try {
+        var u = JSON.parse(user);
+        // Find cart link in navbar and add user name before it
+        var navLinks = document.querySelectorAll('.nav-link, .navbar a');
+        navLinks.forEach(function(link) {
+            if (link.href && link.href.includes('cart.html')) {
+                var userBadge = document.createElement('span');
+                userBadge.style.cssText = 'margin-right:15px;font-weight:600;color:#b56b33;font-size:0.9rem;';
+                userBadge.innerHTML = '👤 ' + u.name.split(' ')[0] + 
+                    ' | <a href="#" onclick="doLogout()" style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>';
+                link.parentElement.parentElement.insertBefore(
+                    document.createElement('li'), link.parentElement
+                ).appendChild(userBadge);
+            }
+        });
+    } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>

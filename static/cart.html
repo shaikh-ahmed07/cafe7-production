@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Cafe 7</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .cart-icon {
+      font-size: 36px;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Cart Container */
+    .cart-container {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      min-height: 400px;
+    }
+
+    /* Empty Cart */
+    .empty-cart {
+      text-align: center;
+      padding: 80px 20px;
+      color: #7f8c8d;
+    }
+
+    .empty-cart-icon {
+      font-size: 100px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-cart h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #34495e;
+    }
+
+    .empty-cart p {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .shop-now-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+
+    .shop-now-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Cart Items */
+    .cart-items {
+      margin-bottom: 30px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 100px 1fr auto auto auto;
+      gap: 20px;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 2px solid #ecf0f1;
+      transition: background 0.3s;
+    }
+
+    .cart-item:hover {
+      background: #f8f9fa;
+    }
+
+    .item-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .item-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .item-price {
+      font-size: 18px;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+
+    /* Quantity Controls */
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8f9fa;
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+
+    .qty-controls button {
+      background: white;
+      border: 2px solid #667eea;
+      color: #667eea;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qty-controls button:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .qty-controls input {
+      width: 60px;
+      text-align: center;
+      border: 2px solid #ecf0f1;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .item-subtotal {
+      font-size: 22px;
+      font-weight: 700;
+      color: #27ae60;
+      min-width: 100px;
+      text-align: right;
+    }
+
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #c0392b;
+      transform: scale(1.05);
+    }
+
+    /* Summary */
+    .cart-summary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 30px;
+      border-radius: 15px;
+      color: white;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .summary-row.total {
+      border-top: 2px solid rgba(255,255,255,0.3);
+      padding-top: 20px;
+      margin-top: 20px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: white;
+      color: #667eea;
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 20px;
+      transition: all 0.3s;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .clear-cart-btn {
+      width: 100%;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 14px;
+      border: 2px solid white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: all 0.3s;
+    }
+
+    .clear-cart-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .cart-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        text-align: center;
+      }
+
+      .item-image {
+        margin: 0 auto;
+      }
+
+      .qty-controls {
+        justify-content: center;
+      }
+
+      .item-subtotal {
+        text-align: center;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1><span class="cart-icon">🛒</span> Your Cart</h1>
+      <a href="index.html" class="back-btn">
+        ← Continue Shopping
+      </a>
+    </div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+      <div id="cart-root"></div>
+    </div>
+  </div>
+
+  
+<script>
+async function loadCart() {
+    var root = document.getElementById('cart-root');
+    var token = localStorage.getItem('cafe7_access_token');
+
+    if (!token) {
+        root.innerHTML = '<div class="empty-cart"><div class="empty-cart-icon">🔒</div><h2>Please login</h2><p>You need to login to view your cart.</p><a href="login.html" class="shop-now-btn">Login</a></div>';
+        return;
+    }
+
+    root.innerHTML = '<div class="empty-cart"><p>Loading cart...</p></div>';
+
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        var data = await res.json();
+
+        if (res.status === 401) {
+            localStorage.removeItem('cafe7_access_token');
+            root.innerHTML = '<div class="empty-cart"><h2>Session expired</h2><a href="login.html" class="shop-now-btn">Login again</a></div>';
+            return;
+        }
+
+        var items = data.items || [];
+        if (items.length === 0) {
+            root.innerHTML = '<div class="empty-cart"><div class="empty-cart-icon">🛒</div><h2>Your cart is empty</h2><p>Looks like you haven\'t added anything yet.</p><a href="index.html" class="shop-now-btn">Start Shopping</a></div>';
+            return;
+        }
+
+        function getEmoji(name) {
+            var n = name.toLowerCase();
+            if (n.includes('coffee')) return '☕';
+            if (n.includes('burger')) return '🍔';
+            if (n.includes('pizza')) return '🍕';
+            if (n.includes('wrap')) return '🌯';
+            if (n.includes('shawarma') || n.includes('shwarma')) return '🥙';
+            if (n.includes('shake') || n.includes('mango') || n.includes('strawberry') || n.includes('vanilla')) return '🥤';
+            if (n.includes('kunafa') || n.includes('cream') || n.includes('rasmalai')) return '🍮';
+            return '🍽️';
+        }
+
+        var itemsHtml = '<div class="cart-items">';
+        var subtotal = data.subtotal || 0;
+        var delivery = data.delivery_charge || 0;
+        var total = data.total || 0;
+        var totalItems = 0;
+
+        items.forEach(function(item) {
+            totalItems += item.quantity;
+            var menuItem = item.menu_item || {};
+            itemsHtml += '<div class="cart-item" data-cart-id="' + item.id + '">' +
+                '<div class="item-image">' + getEmoji(menuItem.name || '') + '</div>' +
+                '<div class="item-details">' +
+                    '<div class="item-name">' + (menuItem.name || 'Item') + '</div>' +
+                    '<div class="item-price">₹' + (menuItem.price || 0).toFixed(2) + ' each</div>' +
+                '</div>' +
+                '<div class="qty-controls">' +
+                    '<button class="decrement" onclick="updateQty(' + item.id + ', ' + (item.quantity - 1) + ')">−</button>' +
+                    '<input class="quantity-input" type="number" min="1" value="' + item.quantity + '" onchange="updateQty(' + item.id + ', this.value)">' +
+                    '<button class="increment" onclick="updateQty(' + item.id + ', ' + (item.quantity + 1) + ')">+</button>' +
+                '</div>' +
+                '<div class="item-subtotal">₹' + (item.subtotal || 0).toFixed(2) + '</div>' +
+                '<button class="remove-btn" onclick="removeItem(' + item.id + ')">Remove</button>' +
+            '</div>';
+        });
+        itemsHtml += '</div>';
+
+        var delivery_text = delivery === 0 ? 'FREE' : '₹' + delivery.toFixed(2);
+        var summaryHtml = '<div class="cart-summary">' +
+            '<div class="summary-row"><span>Subtotal (' + totalItems + ' items)</span><span>₹' + subtotal.toFixed(2) + '</span></div>' +
+            '<div class="summary-row"><span>Delivery</span><span>' + delivery_text + '</span></div>' +
+            '<div class="summary-row total"><span>Total</span><span>₹' + total.toFixed(2) + '</span></div>' +
+            '<button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>' +
+            '<button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>' +
+        '</div>';
+
+        root.innerHTML = itemsHtml + summaryHtml;
+
+    } catch(err) {
+        root.innerHTML = '<div class="empty-cart"><h2>Error loading cart</h2><p>Make sure the server is running.</p></div>';
+    }
+}
+
+async function updateQty(cartItemId, qty) {
+    var token = localStorage.getItem('cafe7_access_token');
+    qty = parseInt(qty);
+    if (qty <= 0) { removeItem(cartItemId); return; }
+    await fetch('/api/cart/update/' + cartItemId, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
+        body: JSON.stringify({quantity: qty})
+    });
+    loadCart();
+}
+
+async function removeItem(cartItemId) {
+    var token = localStorage.getItem('cafe7_access_token');
+    await fetch('/api/cart/remove/' + cartItemId, {
+        method: 'DELETE',
+        headers: {'Authorization': 'Bearer ' + token}
+    });
+    loadCart();
+}
+
+async function clearCart() {
+    if (!confirm('Clear all items from cart?')) return;
+    var token = localStorage.getItem('cafe7_access_token');
+    await fetch('/api/cart/clear', {
+        method: 'DELETE',
+        headers: {'Authorization': 'Bearer ' + token}
+    });
+    loadCart();
+}
+
+async function checkout() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) { window.location.href = 'login.html'; return; }
+    
+    var address = prompt('Enter your delivery address:');
+    if (!address) return;
+    var phone = prompt('Enter your phone number:');
+    if (!phone) return;
+
+    try {
+        var res = await fetch('/api/orders/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
+            body: JSON.stringify({
+                delivery_address: address,
+                customer_phone: phone,
+                payment_method: 'cash_on_delivery'
+            })
+        });
+        var data = await res.json();
+        if (res.ok) {
+            alert('Order placed! Total: ₹' + data.total_amount + '\nEstimated delivery: 45 minutes\nOrder ID: ' + data.order_id);
+            loadCart();
+        } else {
+            alert(data.error || 'Could not place order');
+        }
+    } catch(err) {
+        alert('Server error placing order');
+    }
+}
+
+// Load cart when page opens
+document.addEventListener('DOMContentLoaded', loadCart);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coffee Menu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F5F5DC 0%, #E8DCC4 50%, #D2B48C 100%);
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            padding: 20px;
+            margin-top: 100px;
+        }
+         /* Navbar Styles */
+      .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #b56b33 !important;
+    font-family: 'Georgia', serif;
+    margin-right: 20px !important;
+}
+
+.logo {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: color 0.3s;
+    padding: 8px 15px !important;
+}
+
+.nav-link:hover {
+    color: #b56b33 !important;
+}
+
+.dropdown-item {
+    text-transform: capitalize;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #b56b33 !important;
+}
+
+.active-page {
+    color: #b56b33 !important;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Search form spacing */
+.navbar .d-flex {
+    margin: 0 15px;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+}
+
+.navbar .form-control {
+    min-width: 200px;
+    width: auto;
+}
+
+.navbar .btn {
+    white-space: nowrap;
+}
+
+/* Cart link spacing */
+.navbar a[href="cart.html"] {
+    margin-left: 15px !important;
+    white-space: nowrap;
+}
+
+.cart-count {
+    background: #b56b33;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Add padding to body so content doesn't hide under fixed navbar */
+body {
+    padding-top: 100px;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 991px) {
+    body {
+        padding: 80px 0 0 0 !important;
+    }
+    
+    .header {
+        margin-bottom: 2rem;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem;
+        padding: 0 1rem 2rem;
+    }
+    
+    .menu-item h2 {
+        font-size: 1.2rem;
+        min-height: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    .navbar .form-control {
+        min-width: 150px;
+    }
+    
+    .logo {
+        height: 50px !important;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.menu-item {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid #d4a574;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.15);
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.2s; }
+.menu-item:nth-child(3) { animation-delay: 0.3s; }
+.menu-item:nth-child(4) { animation-delay: 0.4s; }
+.menu-item:nth-child(5) { animation-delay: 0.5s; }
+.menu-item:nth-child(6) { animation-delay: 0.6s; }
+.menu-item:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
+    border-color: #8B4513;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f5f1e8;
+}
+
+.pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.menu-item:hover .pic {
+    transform: scale(1.1);
+}
+
+.content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+}
+
+.menu-item h2 {
+    color: #5d3a1a;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.price {
+    color: #e53935;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.price:hover {
+    color: #b71c1c;
+}
+
+.btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.quantity1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.quantity-btn {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #d4a574;
+    background: #ffffff;
+    color: #5d3a1a;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.quantity-btn:hover {
+    background: #8B4513;
+    color: white;
+    border-color: #8B4513;
+    transform: scale(1.1);
+}
+
+.quantity-btn:active {
+    background: #5d3a1a;
+    transform: scale(0.95);
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #d4a574;
+    font-size: 1.1rem;
+    padding: 0.4rem;
+    border-radius: 8px;
+    background: #f5f1e8;
+    color: #5d3a1a;
+    font-weight: 600;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #8B4513;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        padding-top: 15px;
+    }
+    
+    .navbar .d-flex {
+        margin: 15px 0;
+        width: 100%;
+    }
+    
+    .navbar .form-control {
+        min-width: auto;
+        flex: 1;
+    }
+    
+    .navbar a[href="cart.html"] {
+        margin: 15px 0 !important;
+        display: block;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    .navbar .form-control {
+        min-width: 150px;
+    }
+}
+
+.main {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.head {
+    text-align: center;
+    font-size: 48px;
+    color: #3E2723;
+    margin: 40px 0 60px 0;
+    font-weight: 300;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F5E6D3 100%);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(62, 39, 35, 0.15);
+    border: 3px solid #8B4513;
+}
+
+.head span {
+    color: #8B4513;
+    font-size: 58px;
+    font-weight: bold;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px;
+}
+
+.coffee-item {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #FAF0E6 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(101, 67, 33, 0.2);
+    transition: all 0.4s ease;
+    border: 2px solid #D2B48C;
+    text-align: center;
+}
+
+.coffee-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(101, 67, 33, 0.3);
+    border-color: #8B4513;
+}
+
+.pic {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid #D2B48C;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.coffee-item:hover .pic {
+    border-color: #8B4513;
+}
+
+.text {
+    color: #3E2723;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
+
+.price-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.price {
+    color: #e53935; /* Slightly brighter, modern red */
+    font-size: 24px; /* Slightly smaller, more balanced */
+    font-weight: 600; /* Semi-bold for elegance */
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; /* Clean, professional font */
+    letter-spacing: 0.5px; /* Slight spacing for readability */
+    display: inline-block;
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.price:hover {
+    color: #b71c1c; /* Darker red on hover for subtle effect */
+}
+
+.btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #654321 0%, #8B4513 100%);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(101, 67, 33, 0.4);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.quantity1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #8B4513;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F5E6D3 100%);
+    color: #8B4513;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background: linear-gradient(to bottom, #8B4513 0%, #A0522D 100%);
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+.quantity-input {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid #D2B48C;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3E2723;
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #8B4513;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.2);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 768px) {
+    .head {
+        font-size: 36px;
+        padding: 20px;
+        letter-spacing: 4px;
+        margin: 20px 10px 40px 10px;
+    }
+
+    .head span {
+        font-size: 42px;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        padding: 10px;
+    }
+
+    .coffee-item {
+        padding: 10px;
+    }
+
+    .pic {
+        height: 150px;
+        margin-bottom: 10px;
+    }
+
+    .text {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .price {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .quantity-input {
+        width: 45px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .quantity1 {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .price-section {
+        gap: 10px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .head {
+        font-size: 24px;
+        margin: 15px 5px 25px 5px;
+        padding: 12px;
+        letter-spacing: 2px;
+    }
+
+    .head span {
+        font-size: 28px;
+    }
+
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        padding: 5px;
+    }
+
+    .coffee-item {
+        padding: 8px;
+    }
+
+    .pic {
+        height: 130px;
+        margin-bottom: 8px;
+    }
+
+    .text {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .price {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .quantity-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .quantity-input {
+        width: 40px;
+        height: 28px;
+        font-size: 13px;
+    }
+
+    .quantity1 {
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .price-section {
+        gap: 8px;
+        margin-top: 8px;
+    }
+}
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="container-fluid">
+<img alt="Cafe 7 Logo" class="logo" height="70px" src="images/logo.webp"/>
+<a class="navbar-brand" href="menu.html">Cafe 7</a>
+<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item">
+<a class="nav-link" href="index.html">home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="menu.html">menu</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">specials</a>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="coffee.html">coffee</a></li>
+</ul>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="contact.html">contact us</a>
+</li>
+</ul>
+<form class="d-flex" role="search">
+<input aria-label="Search" class="form-control me-2" placeholder="Search Menu Items" type="search"/>
+<button class="btn btn-outline-success search-btn" type="submit">Search</button>
+</form>
+<a href="cart.html" style="text-decoration: none; color: #007bff; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; border: 2px solid #007bff; border-radius: 0px; transition: all 0.3s;">
+<i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count">0</span>
+</a>
+</div>
+</div>
+</nav>
+<div class="main">
+<h1 class="head">coff<span>EE</span></h1>
+<div class="container">
+<div class="coffee-item">
+<a href="#">
+<img alt="cold coffee with crush" class="pic" src="images/cold coffee with crush.avif"/>
+<h1 class="text">Cold Coffee Crush</h1>
+<div class="price-section">
+<span class="price">₹50</span>
+<button class="btn" data-item-id="27" data-item-name="Cold Coffee Crush">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="coffee-item">
+<a href="#">
+<img alt="chocolate coffee" class="pic" src="images/chocolate coffee.jfif"/>
+<h1 class="text">Chocolate Coffee</h1>
+<div class="price-section">
+<span class="price">₹70</span>
+<button class="btn" data-item-id="25" data-item-name="Chocolate Coffee">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="coffee-item">
+<a href="#">
+<img alt="redbull coffee" class="pic" src="images/redbull coffee.jpg"/>
+<h1 class="text">Redbull Coffee</h1>
+<div class="price-section">
+<span class="price">₹130</span>
+<button class="btn" data-item-id="28" data-item-name="Redbull Coffee">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="coffee-item">
+<a href="#">
+<img alt="americano" class="pic" src="images/americano.jfif"/>
+<h1 class="text">Americano</h1>
+<div class="price-section">
+<span class="price">₹50</span>
+<button class="btn" data-item-id="22" data-item-name="Americano">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="coffee-item">
+<a href="#">
+<img alt="latte" class="pic" src="images/latte.jfif"/>
+<h1 class="text">Latte</h1>
+<div class="price-section">
+<span class="price">₹80</span>
+<button class="btn" data-item-id="23" data-item-name="Latte">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="coffee-item">
+<a href="#">
+<img alt="Caffè mocha" class="pic" src="images/caffe-mocha.jpeg"/>
+<h1 class="text">Caffè Mocha</h1>
+<div class="price-section">
+<span class="price">₹100</span>
+<button class="btn" data-item-id="24" data-item-name="Caffè Mocha">Add to Cart</button>
+<div class="quantity1">
+<button class="quantity-btn decrement">−</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = location.pathname.split("/").pop();
+            document.querySelectorAll('.navbar-nav .nav-link, .dropdown-item').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active-page');
+                }
+            });
+        });
+    </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="coffee.js"></script>
+<script src="main.js"></script>
+
+
+
+
+<script>
+async function updateCartBadge() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) return;
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        if (!res.ok) return;
+        var data = await res.json();
+        var count = data.item_count || 0;
+        document.querySelectorAll('.cart-count').forEach(function(el) {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+document.addEventListener('click', async function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains('btn')) return;
+    if (btn.textContent.indexOf('Add') === -1 && btn.textContent.indexOf('Adding') === -1) return;
+
+    var itemId = btn.getAttribute('data-item-id');
+    if (!itemId) return;
+
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) {
+        if (confirm('Please login to add items to cart. Go to login page?')) {
+            window.location.href = 'login.html';
+        }
+        return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    var card = btn.closest('.content') || btn.closest('.coffee-item') ||
+               btn.closest('.shake-item') || btn.closest('.menu-item') ||
+               btn.closest('.desert-item') || btn.parentElement;
+    var qtyInput = card ? card.querySelector('.quantity-input') : null;
+    var qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+
+    var original = btn.textContent;
+    btn.textContent = 'Adding...';
+    btn.disabled = true;
+
+    try {
+        var res = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({menu_item_id: parseInt(itemId), quantity: qty})
+        });
+        var data = await res.json();
+        if (res.ok) {
+            btn.textContent = 'Added!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            // Update badge immediately after adding
+            updateCartBadge();
+            setTimeout(function() {
+                btn.textContent = original;
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 1500);
+        } else if (res.status === 401) {
+            localStorage.removeItem('cafe7_access_token');
+            alert('Session expired. Please login again.');
+            window.location.href = 'login.html';
+        } else {
+            alert(data.error || 'Could not add to cart');
+            btn.textContent = original; btn.disabled = false;
+        }
+    } catch(err) {
+        alert('Server error.');
+        btn.textContent = original; btn.disabled = false;
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var user = localStorage.getItem('cafe7_user');
+    if (!user) return;
+    try {
+        var u = JSON.parse(user);
+        // Find cart link in navbar and add user name before it
+        var navLinks = document.querySelectorAll('.nav-link, .navbar a');
+        navLinks.forEach(function(link) {
+            if (link.href && link.href.includes('cart.html')) {
+                var userBadge = document.createElement('span');
+                userBadge.style.cssText = 'margin-right:15px;font-weight:600;color:#b56b33;font-size:0.9rem;';
+                userBadge.innerHTML = '👤 ' + u.name.split(' ')[0] + 
+                    ' | <a href="#" onclick="doLogout()" style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>';
+                link.parentElement.parentElement.insertBefore(
+                    document.createElement('li'), link.parentElement
+                ).appendChild(userBadge);
+            }
+        });
+    } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<title>Café 7 - Burgers</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc8 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            padding: 100px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(160, 82, 45, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.3);
+            position: relative;
+            z-index: 10;
+            margin-bottom: 3rem;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #D2691E, transparent);
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 0.8s ease-out;
+        }
+        .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #b56b33 !important;
+    font-family: 'Georgia', serif;
+    margin-right: 20px !important;
+}
+
+.logo {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: color 0.3s;
+    padding: 8px 15px !important;
+}
+
+.nav-link:hover {
+    color: #b56b33 !important;
+}
+
+.dropdown-item {
+    text-transform: capitalize;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #b56b33 !important;
+}
+
+.active-page {
+    color: #b56b33 !important;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Search form spacing */
+.navbar .d-flex {
+    margin: 0 15px;
+    flex-wrap: nowrap !important;
+    gap: 10px;
+}
+
+.navbar .form-control {
+    min-width: 200px;
+    width: auto;
+}
+
+.navbar .btn {
+    white-space: nowrap;
+}
+
+/* Cart link spacing */
+.navbar a[href="cart.html"] {
+    margin-left: 15px !important;
+    white-space: nowrap;
+}
+
+.cart-count {
+    background: #b56b33;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Add padding to body so content doesn't hide under fixed navbar */
+body {
+    padding-top: 100px;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 991px) {
+    body {
+        padding: 80px 0 0 0 !important;
+    }
+    
+    .header {
+        margin-bottom: 2rem;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem;
+        padding: 0 1rem 2rem;
+    }
+    
+    .menu-item h2 {
+        font-size: 1.2rem;
+        min-height: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    .navbar .form-control {
+        min-width: 150px;
+    }
+    
+    .logo {
+        height: 50px !important;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.menu-item {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid #d4a574;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.15);
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.2s; }
+.menu-item:nth-child(3) { animation-delay: 0.3s; }
+.menu-item:nth-child(4) { animation-delay: 0.4s; }
+.menu-item:nth-child(5) { animation-delay: 0.5s; }
+.menu-item:nth-child(6) { animation-delay: 0.6s; }
+.menu-item:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
+    border-color: #8B4513;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f5f1e8;
+}
+
+.pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.menu-item:hover .pic {
+    transform: scale(1.1);
+}
+
+.content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+}
+
+.menu-item h2 {
+    color: #5d3a1a;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.price {
+    color: #e53935;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.price:hover {
+    color: #b71c1c;
+}
+
+.btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.quantity1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.quantity-btn {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #d4a574;
+    background: #ffffff;
+    color: #5d3a1a;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.quantity-btn:hover {
+    background: #8B4513;
+    color: white;
+    border-color: #8B4513;
+    transform: scale(1.1);
+}
+
+.quantity-btn:active {
+    background: #5d3a1a;
+    transform: scale(0.95);
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #d4a574;
+    font-size: 1.1rem;
+    padding: 0.4rem;
+    border-radius: 8px;
+    background: #f5f1e8;
+    color: #5d3a1a;
+    font-weight: 600;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #8B4513;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 70px 0 0 0 !important;
+    }
+    
+    .header {
+        padding: 1.5rem;
+    }
+    
+    .header h1 {
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+    }
+
+    .container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+        padding: 0 0.8rem 1.5rem;
+    }
+
+    .image-wrapper {
+        height: 180px;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .menu-item h2 {
+        font-size: 1rem;
+        min-height: 2.2rem;
+    }
+
+    .price {
+        font-size: 18px;
+    }
+
+    .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+    
+    .quantity-input {
+        width: 45px;
+        font-size: 0.9rem;
+    }
+    
+    .quantity1 {
+        gap: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 65px 0 0 0 !important;
+    }
+    
+    .header {
+        padding: 1.2rem;
+    }
+    
+    .header h1 {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem;
+        padding: 0 0.6rem 1.5rem;
+    }
+    
+    .menu-item {
+        border-radius: 12px;
+    }
+    
+    .image-wrapper {
+        height: 150px;
+    }
+    
+    .content {
+        padding: 0.8rem;
+    }
+    
+    .menu-item h2 {
+        font-size: 0.9rem;
+        min-height: 2rem;
+    }
+    
+    .price-section {
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+    
+    .price {
+        font-size: 16px;
+    }
+    
+    .btn {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.2px;
+    }
+
+    .quantity-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .quantity-input {
+        width: 40px;
+        font-size: 0.85rem;
+        padding: 0.25rem;
+    }
+    
+    .quantity1 {
+        gap: 0.4rem;
+        margin-top: 0.6rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .container {
+        gap: 0.6rem;
+    }
+    
+    .menu-item h2 {
+        font-size: 0.85rem;
+    }
+    
+    .price {
+        font-size: 14px;
+    }
+    
+    .btn {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.65rem;
+    }
+    
+    .image-wrapper {
+        height: 130px;
+    }
+}
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="container-fluid">
+<img alt="Cafe 7 Logo" class="logo" height="70px" src="images/logo.webp"/>
+<a class="navbar-brand" href="menu.html">Cafe 7</a>
+<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item">
+<a class="nav-link" href="index.html">home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="menu.html">menu</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">specials</a>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="coffee.html">coffee</a></li>
+</ul>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="contact.html">contact us</a>
+</li>
+</ul>
+<form class="d-flex" role="search">
+<input aria-label="Search" class="form-control me-2" placeholder="Search Menu Items" type="search"/>
+<button class="btn btn-outline-success search-btn" type="submit">Search</button>
+</form>
+<a href="cart.html" style="text-decoration: none; color: #007bff; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 2px solid #007bff; border-radius: 8px; transition: all 0.3s;">
+<i class="fas fa-shopping-cart"></i> Cart
+                    <span class="cart-count">0</span>
+</a>
+</div>
+</div>
+</nav>
+<div class="header">
+<h1>Burgers</h1>
+</div>
+<div class="container">
+<div class="menu-item chicken-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="chicken burger" class="pic" src="images/burger.jpg"/>
+</div>
+<div class="content">
+<h2>Chicken Burger</h2>
+<div class="price-section">
+<span class="price">80rs</span>
+<button class="btn" data-item-id="3" data-item-name="Chicken Burger">Add to Cart</button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item chicken-cheese-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="chicken cheese burger" class="pic" src="images/cheese  chick burger.jfif"/>
+</div>
+<div class="content">
+<h2>Chicken Cheese Burger</h2>
+<div class="price-section">
+<span class="price">100rs</span>
+<button class="btn" data-item-id="4" data-item-name="Chicken Cheese Burger">Add to Cart</button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item kfc-zinger-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="kfc zinger burger" class="pic" src="images/kfc zinger burger.jfif"/>
+</div>
+<div class="content">
+<h2>KFC Zinger Burger</h2>
+<div class="price-section">
+<span class="price">100rs</span>
+<button class="btn" data-item-id="5" data-item-name="KFC Zinger Burger">Add to Cart</button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item grilled-chicken-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="Grilled chicken burger" class="pic" src="images/Grilled chicken burger.jfif"/>
+</div>
+<div class="content">
+<h2>Grilled Chicken Burger</h2>
+<div class="price-section">
+<span class="price">100rs</span>
+<button class="btn" data-item-id="3" data-item-name="Grilled Chicken Burger">Add to Cart</button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item grilled-chicken-cheese-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="Grilled chicken cheese burger" class="pic" src="images/Grilled chicken  cheese burger.jfif"/>
+</div>
+<div class="content">
+<h2>Grilled Chicken Cheese Burger</h2>
+<div class="price-section">
+<span class="price">120rs</span>
+<button class="btn" data-item-id="4" data-item-name="Grilled Chicken Cheese Burger">Add to Cart</button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item veg-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="veg burger" class="pic" src="images/veg burger.jfif"/>
+</div>
+<div class="content">
+<h2>Veg Burger</h2>
+<div class="price-section">
+<span class="price">80rs</span>
+<button class="btn" data-item-id="1" data-item-name="Veg Burger">Add to Cart </button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+<div class="menu-item veg-cheese-burger">
+<a href="#">
+<div class="image-wrapper">
+<img alt="veg cheese burger" class="pic" src="images/veg cheese burger.jfif"/>
+</div>
+<div class="content">
+<h2>Veg Cheese Burger</h2>
+<div class="price-section">
+<span class="price">100rs</span>
+<button class="btn" data-item-id="2" data-item-name="Veg Cheese Burger">Add to Cart </button>
+</div>
+<div class="quantity1">
+<button class="quantity-btn decrement">-</button>
+<input class="quantity-input" max="10" min="1" type="number" value="1"/>
+<button class="quantity-btn increment">+</button>
+</div>
+</div>
+</a>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="burger.js"></script>
+<script src="main.js"></script>
+
+
+
+
+<script>
+async function updateCartBadge() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) return;
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        if (!res.ok) return;
+        var data = await res.json();
+        var count = data.item_count || 0;
+        document.querySelectorAll('.cart-count').forEach(function(el) {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+document.addEventListener('click', async function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains('btn')) return;
+    if (btn.textContent.indexOf('Add') === -1 && btn.textContent.indexOf('Adding') === -1) return;
+
+    var itemId = btn.getAttribute('data-item-id');
+    if (!itemId) return;
+
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) {
+        if (confirm('Please login to add items to cart. Go to login page?')) {
+            window.location.href = 'login.html';
+        }
+        return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    var card = btn.closest('.content') || btn.closest('.coffee-item') ||
+               btn.closest('.shake-item') || btn.closest('.menu-item') ||
+               btn.closest('.desert-item') || btn.parentElement;
+    var qtyInput = card ? card.querySelector('.quantity-input') : null;
+    var qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+
+    var original = btn.textContent;
+    btn.textContent = 'Adding...';
+    btn.disabled = true;
+
+    try {
+        var res = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({menu_item_id: parseInt(itemId), quantity: qty})
+        });
+        var data = await res.json();
+        if (res.ok) {
+            btn.textContent = 'Added!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            // Update badge immediately after adding
+            updateCartBadge();
+            setTimeout(function() {
+                btn.textContent = original;
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 1500);
+        } else if (res.status === 401) {
+            localStorage.removeItem('cafe7_access_token');
+            alert('Session expired. Please login again.');
+            window.location.href = 'login.html';
+        } else {
+            alert(data.error || 'Could not add to cart');
+            btn.textContent = original; btn.disabled = false;
+        }
+    } catch(err) {
+        alert('Server error.');
+        btn.textContent = original; btn.disabled = false;
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var user = localStorage.getItem('cafe7_user');
+    if (!user) return;
+    try {
+        var u = JSON.parse(user);
+        // Find cart link in navbar and add user name before it
+        var navLinks = document.querySelectorAll('.nav-link, .navbar a');
+        navLinks.forEach(function(link) {
+            if (link.href && link.href.includes('cart.html')) {
+                var userBadge = document.createElement('span');
+                userBadge.style.cssText = 'margin-right:15px;font-weight:600;color:#b56b33;font-size:0.9rem;';
+                userBadge.innerHTML = '👤 ' + u.name.split(' ')[0] + 
+                    ' | <a href="#" onclick="doLogout()" style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>';
+                link.parentElement.parentElement.insertBefore(
+                    document.createElement('li'), link.parentElement
+                ).appendChild(userBadge);
+            }
+        });
+    } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>

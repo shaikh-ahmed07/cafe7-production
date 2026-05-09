@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Cafe 7</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: white;
+      padding: 20px 50px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #6b4423;
+    }
+
+    .logo-icon {
+      font-size: 36px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      transition: color 0.3s;
+      font-size: 16px;
+    }
+
+    .nav-links a:hover {
+      color: #d4763a;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #d4763a 0%, #6b4423 100%);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      opacity: 0.95;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: -50px auto 50px;
+      padding: 0 20px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    /* Contact Form */
+    .contact-form-section {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .contact-form-section h2 {
+      color: #6b4423;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .contact-form-section p {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #d4763a;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #d4763a 0%, #6b4423 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 118, 58, 0.4);
+    }
+
+    /* Contact Info */
+    .contact-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: transform 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .info-icon {
+      font-size: 32px;
+      color: #d4763a;
+      min-width: 50px;
+      height: 50px;
+      background: #fff5e6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-content h3 {
+      color: #6b4423;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .info-content p {
+      color: #666;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .info-content a {
+      color: #d4763a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .info-content a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hours Section */
+    .hours-section {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+    }
+
+    .hours-section h2 {
+      color: #6b4423;
+      font-size: 32px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .hours-card {
+      background: #fff5e6;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .hours-card h3 {
+      color: #6b4423;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .hours-card p {
+      color: #666;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Map Section */
+    .map-section {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+    }
+
+    .map-section h2 {
+      color: #6b4423;
+      font-size: 32px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #d4763a;
+    }
+
+    /* Social Media */
+    .social-section {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .social-section h2 {
+      color: #6b4423;
+      font-size: 32px;
+      margin-bottom: 25px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #d4763a;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 8px 25px rgba(212, 118, 58, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hours-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">☕</span>
+      <span>Cafe 7</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Get In Touch</h1>
+    <p>We'd love to hear from you! Questions, feedback, or just want to say hi?</p>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="content-grid">
+      <!-- Contact Form -->
+      <div class="contact-form-section">
+        <h2>Send Us a Message</h2>
+        <p>Have a question about our menu or want to place a special order? Fill out the form below!</p>
+        
+        <div class="success-message" id="successMessage">
+          ✓ Thank you! Your message has been sent successfully. We'll get back to you soon!
+        </div>
+
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="john@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 7207842402">
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <select id="subject" name="subject" required>
+              <option value="">Select a topic...</option>
+              <option value="general">General Inquiry</option>
+              <option value="menu">Menu Question</option>
+              <option value="catering">Catering Request</option>
+              <option value="reservation">Table Reservation</option>
+              <option value="feedback">Feedback</option>
+              <option value="complaint">Complaint</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message *</label>
+            <textarea id="message" name="message" required placeholder="Tell us what's on your mind..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="contact-info-section">
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="info-content">
+            <h3>Visit Us</h3>
+            <p>123 Coffee Street, Food District<br>Hyderabad, Telangana 500001<br>India</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="info-content">
+            <h3>Call Us</h3>
+            <p>Phone: <a href="tel:+91 7207842402 ">+91 7207842402 </a><br>
+            Toll Free: <a href="tel:0000000">00000000</a></p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="info-content">
+            <h3>Email Us</h3>
+            <p>General: <a href="mailto:hello@cafe7.com">hello@cafe7.com</a><br>
+            Orders: <a href="mailto:orders@cafe7.com">orders@cafe7.com</a></p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <div class="info-content">
+            <h3>Special Orders</h3>
+            <p>Planning a party or event? We offer catering services and custom menu options. Contact us at least 48 hours in advance!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hours Section -->
+    <div class="hours-section">
+      <h2>⏰ Opening Hours</h2>
+      <div class="hours-grid">
+        <div class="hours-card">
+          <h3>Monday - Friday</h3>
+          <p>7:00 AM - 10:00 PM</p>
+        </div>
+        <div class="hours-card">
+          <h3>Saturday</h3>
+          <p>8:00 AM - 11:00 PM</p>
+        </div>
+        <div class="hours-card">
+          <h3>Sunday</h3>
+          <p>8:00 AM - 9:00 PM</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+      <h2>📍 Find Us on the Map</h2>
+      <div class="map-placeholder">
+        🗺️
+        <!-- Replace this with actual Google Maps embed -->
+        <!-- <iframe src="YOUR_GOOGLE_MAPS_EMBED_URL" width="100%" height="400" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy"></iframe> -->
+      </div>
+    </div>
+
+    <!-- Social Media -->
+    <div class="social-section">
+      <h2>Follow Us</h2>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-link" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="social-link" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-link" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" class="social-link" title="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("contactForm").onsubmit = function(e) {
+    e.preventDefault();
+    var btn = this.querySelector("button");
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    var subject = document.getElementById("subject").value;
+    var message = document.getElementById("message").value;
+    if (btn) btn.textContent = "Sending...";
+    fetch("/api/contact/", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({name:name, email:email, phone:phone, subject:subject, message:message})
+    }).then(r => r.json()).then(data => {
+      alert(data.message || data.error);
+      if (data.message) this.reset();
+      if (btn) btn.textContent = "Send Message";
+    }).catch(() => {
+      alert("Server error");
+      if (btn) btn.textContent = "Send Message";
+    });
+    return false;
+  };
+});
+</script>
+
+<script>
+async function updateCartBadge() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) return;
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        if (!res.ok) return;
+        var data = await res.json();
+        var count = data.item_count || 0;
+        document.querySelectorAll('.cart-count').forEach(function(el) {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    } catch(e) {}
+}
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var user = localStorage.getItem('cafe7_user');
+    if (!user) return;
+    try {
+        var u = JSON.parse(user);
+        // Find cart link in navbar and add user name before it
+        var navLinks = document.querySelectorAll('.nav-link, .navbar a');
+        navLinks.forEach(function(link) {
+            if (link.href && link.href.includes('cart.html')) {
+                var userBadge = document.createElement('span');
+                userBadge.style.cssText = 'margin-right:15px;font-weight:600;color:#b56b33;font-size:0.9rem;';
+                userBadge.innerHTML = '👤 ' + u.name.split(' ')[0] + 
+                    ' | <a href="#" onclick="doLogout()" style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>';
+                link.parentElement.parentElement.insertBefore(
+                    document.createElement('li'), link.parentElement
+                ).appendChild(userBadge);
+            }
+        });
+    } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>
+
+<script>
+async function updateCartBadge() {
+    var token = localStorage.getItem('cafe7_access_token');
+    if (!token) return;
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        if (!res.ok) return;
+        var data = await res.json();
+        var count = data.item_count || 0;
+        document.querySelectorAll('.cart-count').forEach(function(el) {
+            el.textContent = count;
+            el.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    } catch(e) {}
+}
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var user = localStorage.getItem('cafe7_user');
+    if (!user) return;
+    try {
+        var u = JSON.parse(user);
+        // Find cart link in navbar and add user name before it
+        var navLinks = document.querySelectorAll('.nav-link, .navbar a');
+        navLinks.forEach(function(link) {
+            if (link.href && link.href.includes('cart.html')) {
+                var userBadge = document.createElement('span');
+                userBadge.style.cssText = 'margin-right:15px;font-weight:600;color:#b56b33;font-size:0.9rem;';
+                userBadge.innerHTML = '👤 ' + u.name.split(' ')[0] + 
+                    ' | <a href="#" onclick="doLogout()" style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>';
+                link.parentElement.parentElement.insertBefore(
+                    document.createElement('li'), link.parentElement
+                ).appendChild(userBadge);
+            }
+        });
+    } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+</script>
+</body>
+</html>
