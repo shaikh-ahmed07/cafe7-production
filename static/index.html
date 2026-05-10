@@ -689,26 +689,9 @@
             <li class="nav-item">
               <a class="nav-link" href="orders.html">My Orders</a>
             </li>
-            <li class="nav-item" id="admin-nav-item" style="display: none">
-              <a
-                class="nav-link"
-                href="admin.html"
-                style="color: #b56b33; font-weight: 700"
-              >
-                ⚙️ Admin
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="admin.html">Admin Dashboard</a>
-            </li>
-            <li class="nav-item" id="admin-nav-item" style="display: none">
-              <a
-                class="nav-link"
-                href="admin.html"
-                style="color: #b56b33; font-weight: 700"
-              >
-                ⚙️ Admin
-              </a>
+            <li class="nav-item" id="admin-nav-item" style="display:none">
+    <a class="nav-link" href="admin.html" style="color:#b56b33;font-weight:700;">⚙️ Admin Dashboard</a>
+</li>
             </li>
           </ul>
           <form class="d-flex" role="search">
@@ -915,5 +898,19 @@
         window.location.href = "login.html";
       }
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var token = localStorage.getItem('cafe7_access_token');
+    var user = JSON.parse(localStorage.getItem('cafe7_user') || '{}');
+    if (token && user.name) {
+        setTimeout(function() {
+            var adminEl = document.getElementById('admin-nav-item');
+            if (adminEl && user.role === 'admin') {
+                adminEl.style.display = 'block';
+            }
+        }, 100);
+    }
+});
+</script>
   </body>
 </html>

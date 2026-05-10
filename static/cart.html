@@ -456,32 +456,7 @@ async function clearCart() {
 async function checkout() {
     var token = localStorage.getItem('cafe7_access_token');
     if (!token) { window.location.href = 'login.html'; return; }
-    
-    var address = prompt('Enter your delivery address:');
-    if (!address) return;
-    var phone = prompt('Enter your phone number:');
-    if (!phone) return;
-
-    try {
-        var res = await fetch('/api/orders/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
-            body: JSON.stringify({
-                delivery_address: address,
-                customer_phone: phone,
-                payment_method: 'cash_on_delivery'
-            })
-        });
-        var data = await res.json();
-        if (res.ok) {
-            alert('Order placed! Total: ₹' + data.total_amount + '\nEstimated delivery: 45 minutes\nOrder ID: ' + data.order_id);
-            loadCart();
-        } else {
-            alert(data.error || 'Could not place order');
-        }
-    } catch(err) {
-        alert('Server error placing order');
-    }
+    window.location.href = 'checkout.html';
 }
 
 // Load cart when page opens

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe 7 - Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f1e8, #e8dcc8);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-size: 1.8rem; font-weight: 700;
+            color: #b56b33 !important; font-family: Georgia, serif;
+        }
+        .nav-link { color: #333 !important; font-weight: 500; }
+
+        .page-title {
+            text-align: center; padding: 30px 0 20px;
+            font-size: 2rem; font-weight: 700; color: #5d3a1a;
+        }
+
+        /* Checkout Card */
+        .checkout-card {
+            background: white; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .checkout-card-header {
+            background: linear-gradient(135deg, #8B4513, #b56b33);
+            color: white; padding: 20px 25px;
+            font-size: 1.1rem; font-weight: 700;
+        }
+        .checkout-card-header i { margin-right: 8px; }
+        .checkout-card-body { padding: 25px; }
+
+        /* Form */
+        .form-label { font-weight: 600; color: #555; font-size: 0.9rem; }
+        .form-control, .form-select {
+            border: 2px solid #e8dcc8; border-radius: 10px;
+            padding: 12px 16px; font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #b56b33;
+            box-shadow: 0 0 0 3px rgba(181,107,51,0.15);
+        }
+
+        /* Payment options */
+        .payment-option {
+            border: 2px solid #e8dcc8; border-radius: 12px;
+            padding: 15px 20px; cursor: pointer;
+            transition: all 0.3s; display: flex;
+            align-items: center; gap: 12px; margin-bottom: 10px;
+        }
+        .payment-option:hover { border-color: #b56b33; }
+        .payment-option.selected {
+            border-color: #b56b33;
+            background: #fdf8f3;
+        }
+        .payment-option input { accent-color: #b56b33; width: 18px; height: 18px; }
+        .payment-option-label { font-weight: 600; color: #333; }
+        .payment-option-desc { font-size: 0.8rem; color: #888; }
+
+        /* Order Summary */
+        .order-item {
+            display: flex; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #f0e8d8;
+            font-size: 0.9rem;
+        }
+        .order-item:last-child { border-bottom: none; }
+        .order-item-name { color: #333; }
+        .order-item-price { font-weight: 600; color: #5d3a1a; }
+
+        .summary-row {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; font-size: 0.95rem; color: #555;
+        }
+        .summary-row.total {
+            font-size: 1.2rem; font-weight: 700;
+            color: #5d3a1a; border-top: 2px solid #e8dcc8;
+            padding-top: 15px; margin-top: 5px;
+        }
+
+        /* Place Order Button */
+        .btn-place-order {
+            background: linear-gradient(135deg, #8B4513, #b56b33);
+            color: white; border: none; border-radius: 12px;
+            padding: 16px; font-size: 1.1rem; font-weight: 700;
+            width: 100%; cursor: pointer; transition: opacity 0.3s;
+            margin-top: 10px;
+        }
+        .btn-place-order:hover { opacity: 0.9; color: white; }
+        .btn-place-order:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Success Screen */
+        .success-screen {
+            display: none; text-align: center; padding: 40px 20px;
+        }
+        .success-icon {
+            font-size: 4rem; margin-bottom: 20px;
+        }
+        .success-screen h2 { color: #5d3a1a; font-weight: 700; }
+        .success-screen p { color: #888; }
+        .order-id-badge {
+            background: #fdf8f3; border: 2px solid #b56b33;
+            border-radius: 12px; padding: 15px 25px;
+            font-size: 1.1rem; font-weight: 700; color: #b56b33;
+            display: inline-block; margin: 15px 0;
+        }
+        .btn-back {
+            background: linear-gradient(135deg, #8B4513, #b56b33);
+            color: white; border: none; border-radius: 12px;
+            padding: 12px 30px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; text-decoration: none;
+            display: inline-block; margin: 5px;
+        }
+
+        .empty-cart {
+            text-align: center; padding: 60px 20px;
+        }
+        .empty-cart h2 { color: #5d3a1a; }
+
+        .loading { text-align: center; padding: 40px; color: #888; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">☕ Cafe 7</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="cart.html">🛒 Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="orders.html">My Orders</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="max-width: 1000px;">
+    <h1 class="page-title">🛒 Checkout</h1>
+
+    <!-- Empty cart state -->
+    <div id="empty-cart" class="empty-cart" style="display:none;">
+        <div style="font-size:4rem">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Add some items before checking out</p>
+        <a href="menu.html" class="btn-back">Browse Menu</a>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="loading">
+        <p>Loading your cart...</p>
+    </div>
+
+    <!-- Checkout Form -->
+    <div id="checkout-content" style="display:none;">
+        <div class="row g-4">
+
+            <!-- LEFT: Delivery Details -->
+            <div class="col-lg-7">
+                <div class="checkout-card mb-4">
+                    <div class="checkout-card-header">
+                        <i class="fas fa-map-marker-alt"></i> Delivery Details
+                    </div>
+                    <div class="checkout-card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="customer-name"
+                                placeholder="Ahmed Ali" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="customer-phone"
+                                placeholder="9876543210" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Delivery Address *</label>
+                            <textarea class="form-control" id="delivery-address" rows="3"
+                                placeholder="House No, Street, Area, City" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Special Instructions (optional)</label>
+                            <input type="text" class="form-control" id="special-instructions"
+                                placeholder="e.g. No onions, extra sauce...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="checkout-card">
+                    <div class="checkout-card-header">
+                        <i class="fas fa-credit-card"></i> Payment Method
+                    </div>
+                    <div class="checkout-card-body">
+                        <div class="payment-option selected" onclick="selectPayment('cash_on_delivery')">
+                            <input type="radio" name="payment" value="cash_on_delivery" checked>
+                            <div>
+                                <div class="payment-option-label">💵 Cash on Delivery</div>
+                                <div class="payment-option-desc">Pay when your order arrives</div>
+                            </div>
+                        </div>
+                        <div class="payment-option" onclick="selectPayment('razorpay')">
+                            <input type="radio" name="payment" value="razorpay">
+                            <div>
+                                <div class="payment-option-label">💳 Online Payment (Razorpay)</div>
+                                <div class="payment-option-desc">Pay securely online — UPI, Card, Net Banking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Order Summary -->
+            <div class="col-lg-5">
+                <div class="checkout-card" style="position: sticky; top: 90px;">
+                    <div class="checkout-card-header">
+                        <i class="fas fa-receipt"></i> Order Summary
+                    </div>
+                    <div class="checkout-card-body">
+                        <div id="order-items">
+                            <!-- Items loaded here -->
+                        </div>
+
+                        <div style="margin-top: 15px;">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="summary-subtotal">₹0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery Charge</span>
+                                <span id="summary-delivery">₹30</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="summary-total">₹0</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-place-order" id="place-order-btn" onclick="placeOrder()">
+                            🛒 Place Order
+                        </button>
+
+                        <p style="text-align:center;font-size:0.8rem;color:#aaa;margin-top:10px;">
+                            Estimated delivery: <strong>45 minutes</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="checkout-card" style="display:none;">
+        <div class="checkout-card-body">
+            <div class="success-screen" style="display:block;">
+                <div class="success-icon">🎉</div>
+                <h2>Order Placed Successfully!</h2>
+                <p>Thank you for ordering from Cafe 7!</p>
+                <div class="order-id-badge" id="success-order-id"></div>
+                <p style="color:#10b981;font-weight:600;">
+                    ⏱️ Estimated delivery: 45 minutes
+                </p>
+                <div style="margin-top:20px;">
+                    <a href="orders.html" class="btn-back">📦 Track My Order</a>
+                    <a href="index.html" class="btn-back" style="background:linear-gradient(135deg,#6b7280,#9ca3af);">
+                        🏠 Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+var token = localStorage.getItem('cafe7_access_token');
+var user = JSON.parse(localStorage.getItem('cafe7_user') || '{}');
+var cartData = null;
+
+// Redirect to login if not logged in
+if (!token) {
+    alert('Please login to checkout');
+    window.location.href = 'login.html';
+}
+
+// Pre-fill user details
+if (user.name) {
+    document.getElementById('customer-name').value = user.name;
+}
+if (user.phone) {
+    document.getElementById('customer-phone').value = user.phone;
+}
+
+// Load cart on page load
+document.addEventListener('DOMContentLoaded', loadCart);
+
+async function loadCart() {
+    try {
+        var res = await fetch('/api/cart/', {
+            headers: {'Authorization': 'Bearer ' + token}
+        });
+        cartData = await res.json();
+        var items = cartData.items || [];
+
+        if (items.length === 0) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('empty-cart').style.display = 'block';
+            return;
+        }
+
+        // Render order items
+        var itemsHtml = items.map(function(item) {
+            var menuItem = item.menu_item || {};
+            return '<div class="order-item">' +
+                '<span class="order-item-name">' + item.quantity + 'x ' + menuItem.name + '</span>' +
+                '<span class="order-item-price">₹' + parseFloat(item.subtotal).toFixed(0) + '</span>' +
+                '</div>';
+        }).join('');
+
+        document.getElementById('order-items').innerHTML = itemsHtml;
+        document.getElementById('summary-subtotal').textContent = '₹' + parseFloat(cartData.subtotal).toFixed(0);
+        document.getElementById('summary-delivery').textContent =
+            cartData.delivery_charge === 0 ? 'FREE' : '₹' + parseFloat(cartData.delivery_charge).toFixed(0);
+        document.getElementById('summary-total').textContent = '₹' + parseFloat(cartData.total).toFixed(0);
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('checkout-content').style.display = 'block';
+
+    } catch(e) {
+        document.getElementById('loading').innerHTML = '<p style="color:red">Error loading cart. Make sure server is running.</p>';
+    }
+}
+
+function selectPayment(method) {
+    document.querySelectorAll('.payment-option').forEach(function(el) {
+        el.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+    document.querySelector('input[value="' + method + '"]').checked = true;
+}
+
+async function placeOrder() {
+    var name = document.getElementById('customer-name').value.trim();
+    var phone = document.getElementById('customer-phone').value.trim();
+    var address = document.getElementById('delivery-address').value.trim();
+    var instructions = document.getElementById('special-instructions').value.trim();
+    var payment = document.querySelector('input[name="payment"]:checked').value;
+
+    // Validate
+    if (!name) { alert('Please enter your name'); return; }
+    if (!phone) { alert('Please enter your phone number'); return; }
+    if (!address) { alert('Please enter your delivery address'); return; }
+
+    var btn = document.getElementById('place-order-btn');
+    btn.textContent = 'Placing Order...';
+    btn.disabled = true;
+
+    try {
+        var res = await fetch('/api/orders/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                customer_name: name,
+                customer_phone: phone,
+                delivery_address: address,
+                special_instructions: instructions,
+                payment_method: payment
+            })
+        });
+
+        var data = await res.json();
+
+        if (res.ok) {
+            // Show success screen
+            document.getElementById('checkout-content').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+            document.getElementById('success-order-id').textContent =
+                'Order ID: #' + data.order_id.substring(0, 8).toUpperCase();
+        } else {
+            alert(data.error || 'Could not place order. Please try again.');
+            btn.textContent = '🛒 Place Order';
+            btn.disabled = false;
+        }
+
+    } catch(e) {
+        alert('Server error. Make sure Flask is running.');
+        btn.textContent = '🛒 Place Order';
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>
