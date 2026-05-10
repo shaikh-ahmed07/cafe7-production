@@ -89,3 +89,15 @@ def dashboard():
         },
         "recent_orders": [o.to_dict() for o in recent_orders]
     }), 200
+
+
+@admin_bp.route("/orders", methods=["GET"])
+@jwt_required()
+def get_all_orders():
+    """Get all orders for admin."""
+    claims = get_jwt()
+    if claims.get("role") != "admin":
+        return jsonify({"error": "Admin access required"}), 403
+    from app.models import Order
+    orders = Order.query.order_by(Order.created_at.desc()).all()
+    return jsonify({"orders": [o.to_dict() for o in orders]}), 200

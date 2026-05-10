@@ -588,6 +588,17 @@ a {
 <input aria-label="Search" class="form-control me-2" placeholder="Search Menu Items" type="search"/>
 <button class="btn btn-outline-success search-btn" type="submit">Search</button>
 </form>
+<div id="nav-user-section" style="margin-left:10px;margin-right:5px;display:none;">
+    <span id="nav-username" style="color:#b56b33;font-weight:600;font-size:0.9rem;"></span>
+    &nbsp;|&nbsp;
+    <a href="login.html" onclick="doLogout();return false;" 
+       style="color:#999;font-size:0.85rem;text-decoration:none;">Logout</a>
+</div>
+<div id="nav-login-section" style="margin-left:10px;margin-right:5px;">
+    <a href="login.html" style="color:#b56b33;font-weight:600;font-size:0.9rem;text-decoration:none;">
+        👤 Login
+    </a>
+</div>
 <a href="cart.html" style="text-decoration: none; color: #007bff; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 2px solid #007bff; border-radius: 8px; transition: all 0.3s;">
 <i class="fas fa-shopping-cart"></i> Cart
                     <span class="cart-count">0</span>
@@ -845,6 +856,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     } catch(e) {}
+});
+
+function doLogout() {
+    localStorage.removeItem('cafe7_access_token');
+    localStorage.removeItem('cafe7_refresh_token');
+    localStorage.removeItem('cafe7_user');
+    window.location.href = 'login.html';
+}
+
+</script>
+<script>
+// Show user name, logout, and admin link in navbar
+document.addEventListener('DOMContentLoaded', function() {
+    var token = localStorage.getItem('cafe7_access_token');
+    var user = JSON.parse(localStorage.getItem('cafe7_user') || '{}');
+
+    if (token && user.name) {
+        // Show user section, hide login
+        document.getElementById('nav-user-section').style.display = 'inline-flex';
+        document.getElementById('nav-user-section').style.alignItems = 'center';
+        document.getElementById('nav-login-section').style.display = 'none';
+        document.getElementById('nav-username').textContent = '👤 ' + user.name.split(' ')[0];
+
+        // Show admin link only for admins
+        if (user.role === 'admin') {
+            document.getElementById('admin-nav-item').style.display = 'block';
+        }
+    }
 });
 
 function doLogout() {

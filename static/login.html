@@ -1,115 +1,305 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cafe 7 - Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f1e8, #e8dcc8); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .card { width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-        .card-header { background: linear-gradient(135deg, #8B4513, #b56b33); color: white; text-align: center; padding: 30px; }
-        .card-header h2 { margin: 0; font-size: 1.8rem; }
-        .card-body { padding: 30px; background: white; }
-        .nav-tabs .nav-link { color: #999; font-weight: 600; }
-        .nav-tabs .nav-link.active { color: #b56b33; border-color: #b56b33 #b56b33 white; }
-        .form-control { border: 2px solid #e8dcc8; border-radius: 10px; padding: 12px; }
-        .form-control:focus { border-color: #b56b33; box-shadow: none; }
-        .btn-cafe { background: linear-gradient(135deg, #8B4513, #b56b33); color: white; border: none; border-radius: 10px; padding: 12px; width: 100%; font-weight: 600; font-size: 1rem; }
-        .btn-cafe:hover { opacity: 0.9; color: white; }
-        label { font-weight: 600; font-size: 0.9rem; color: #555; margin-bottom: 5px; }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #f5f1e8, #e8dcc8);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card {
+        width: 100%;
+        max-width: 450px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+      .card-header {
+        background: linear-gradient(135deg, #8b4513, #b56b33);
+        color: white;
+        text-align: center;
+        padding: 30px;
+      }
+      .card-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+      .card-body {
+        padding: 30px;
+        background: white;
+      }
+      .nav-tabs .nav-link {
+        color: #999;
+        font-weight: 600;
+      }
+      .nav-tabs .nav-link.active {
+        color: #b56b33;
+        border-color: #b56b33 #b56b33 white;
+      }
+      .form-control {
+        border: 2px solid #e8dcc8;
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .form-control:focus {
+        border-color: #b56b33;
+        box-shadow: none;
+      }
+      .btn-cafe {
+        background: linear-gradient(135deg, #8b4513, #b56b33);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px;
+        width: 100%;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      .btn-cafe:hover {
+        opacity: 0.9;
+        color: white;
+      }
+      label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 5px;
+      }
     </style>
-</head>
-<body>
-<div class="card">
-    <div class="card-header">
+  </head>
+  <body>
+    <div class="card">
+      <div class="card-header">
         <h2>☕ Cafe 7</h2>
-        <p class="mb-0 mt-2" style="opacity:0.85">Login or create an account</p>
-    </div>
-    <div class="card-body">
+        <p class="mb-0 mt-2" style="opacity: 0.85">
+          Login or create an account
+        </p>
+      </div>
+      <div class="card-body">
         <ul class="nav nav-tabs mb-4" id="authTabs">
-            <li class="nav-item w-50 text-center">
-                <button class="nav-link active w-100" onclick="showTab('login')">Login</button>
-            </li>
-            <li class="nav-item w-50 text-center">
-                <button class="nav-link w-100" onclick="showTab('register')">Register</button>
-            </li>
+          <li class="nav-item w-50 text-center">
+            <button class="nav-link active w-100" onclick="showTab('login')">
+              Login
+            </button>
+          </li>
+          <li class="nav-item w-50 text-center">
+            <button class="nav-link w-100" onclick="showTab('register')">
+              Register
+            </button>
+          </li>
         </ul>
 
         <div id="alertBox" class="alert d-none mb-3"></div>
 
         <!-- Login -->
         <div id="loginForm">
-            <div class="mb-3"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="ahmed@gmail.com"></div>
-            <div class="mb-3"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="Your password"></div>
-            <button class="btn btn-cafe" onclick="doLogin()">Login to My Account</button>
-            <p class="text-center mt-3 text-muted" style="font-size:0.9rem">No account? <a href="#" onclick="showTab('register')" style="color:#b56b33">Register here</a></p>
+          <div class="mb-3">
+            <label>Email</label
+            ><input
+              type="email"
+              id="loginEmail"
+              class="form-control"
+              placeholder="ahmed@gmail.com"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Password</label
+            ><input
+              type="password"
+              id="loginPassword"
+              class="form-control"
+              placeholder="Your password"
+            />
+          </div>
+          <button class="btn btn-cafe" onclick="doLogin()">
+            Login to My Account
+          </button>
+          <p class="text-center mt-2" style="font-size: 0.85rem">
+            <a
+              href="#"
+              onclick="forgotPassword()"
+              style="color: #999; text-decoration: none"
+              >Forgot password?</a
+            >
+          </p>
+          <p class="text-center mt-3 text-muted" style="font-size: 0.9rem">
+            No account?
+            <a href="#" onclick="showTab('register')" style="color: #b56b33"
+              >Register here</a
+            >
+          </p>
         </div>
 
         <!-- Register -->
         <div id="registerForm" class="d-none">
-            <div class="mb-3"><label>Full Name</label><input type="text" id="regName" class="form-control" placeholder="Ahmed Ali"></div>
-            <div class="mb-3"><label>Email</label><input type="email" id="regEmail" class="form-control" placeholder="ahmed@gmail.com"></div>
-            <div class="mb-3"><label>Phone (optional)</label><input type="tel" id="regPhone" class="form-control" placeholder="9876543210"></div>
-            <div class="mb-3"><label>Password (min 8 chars)</label><input type="password" id="regPassword" class="form-control" placeholder="Create a password"></div>
-            <button class="btn btn-cafe" onclick="doRegister()">Create My Account</button>
-            <p class="text-center mt-3 text-muted" style="font-size:0.9rem">Have account? <a href="#" onclick="showTab('login')" style="color:#b56b33">Login here</a></p>
+          <div class="mb-3">
+            <label>Full Name</label
+            ><input
+              type="text"
+              id="regName"
+              class="form-control"
+              placeholder="Ahmed Ali"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Email</label
+            ><input
+              type="email"
+              id="regEmail"
+              class="form-control"
+              placeholder="ahmed@gmail.com"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Phone (optional)</label
+            ><input
+              type="tel"
+              id="regPhone"
+              class="form-control"
+              placeholder="9876543210"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Password (min 8 chars)</label
+            ><input
+              type="password"
+              id="regPassword"
+              class="form-control"
+              placeholder="Create a password"
+            />
+          </div>
+          <button class="btn btn-cafe" onclick="doRegister()">
+            Create My Account
+          </button>
+          <p class="text-center mt-3 text-muted" style="font-size: 0.9rem">
+            Have account?
+            <a href="#" onclick="showTab('login')" style="color: #b56b33"
+              >Login here</a
+            >
+          </p>
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-if (localStorage.getItem("cafe7_access_token")) window.location.href = "index.html";
+    <script>
+      if (localStorage.getItem("cafe7_access_token"))
+        window.location.href = "index.html";
 
-function showTab(tab) {
-    document.getElementById("loginForm").classList.toggle("d-none", tab !== "login");
-    document.getElementById("registerForm").classList.toggle("d-none", tab !== "register");
-    document.querySelectorAll("#authTabs .nav-link").forEach((b,i) => b.classList.toggle("active", (i===0&&tab==="login")||(i===1&&tab==="register")));
-    document.getElementById("alertBox").className = "alert d-none mb-3";
-}
+      function showTab(tab) {
+        document
+          .getElementById("loginForm")
+          .classList.toggle("d-none", tab !== "login");
+        document
+          .getElementById("registerForm")
+          .classList.toggle("d-none", tab !== "register");
+        document
+          .querySelectorAll("#authTabs .nav-link")
+          .forEach((b, i) =>
+            b.classList.toggle(
+              "active",
+              (i === 0 && tab === "login") || (i === 1 && tab === "register"),
+            ),
+          );
+        document.getElementById("alertBox").className = "alert d-none mb-3";
+      }
 
-function showAlert(msg, type) {
-    var a = document.getElementById("alertBox");
-    a.textContent = msg;
-    a.className = "alert alert-" + type + " mb-3";
-}
+      function showAlert(msg, type) {
+        var a = document.getElementById("alertBox");
+        a.textContent = msg;
+        a.className = "alert alert-" + type + " mb-3";
+      }
 
-async function doLogin() {
-    var email = document.getElementById("loginEmail").value.trim();
-    var password = document.getElementById("loginPassword").value;
-    if (!email || !password) { showAlert("Please fill all fields", "danger"); return; }
-    try {
-        var r = await fetch("/api/auth/login", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({email, password})});
-        var d = await r.json();
-        if (r.ok) {
+      async function doLogin() {
+        var email = document.getElementById("loginEmail").value.trim();
+        var password = document.getElementById("loginPassword").value;
+        if (!email || !password) {
+          showAlert("Please fill all fields", "danger");
+          return;
+        }
+        try {
+          var r = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          var d = await r.json();
+          if (r.ok) {
             localStorage.setItem("cafe7_access_token", d.access_token);
             localStorage.setItem("cafe7_refresh_token", d.refresh_token);
             localStorage.setItem("cafe7_user", JSON.stringify(d.user));
-            showAlert("Welcome back " + d.user.name + "! Redirecting...", "success");
-            setTimeout(() => window.location.href = "index.html", 1500);
-        } else { showAlert(d.error || "Login failed", "danger"); }
-    } catch(e) { showAlert("Server error. Is Flask running?", "danger"); }
-}
+            showAlert(
+              "Welcome back " + d.user.name + "! Redirecting...",
+              "success",
+            );
+            setTimeout(() => (window.location.href = "index.html"), 1500);
+          } else {
+            showAlert(d.error || "Login failed", "danger");
+          }
+        } catch (e) {
+          showAlert("Server error. Is Flask running?", "danger");
+        }
+      }
 
-async function doRegister() {
-    var name = document.getElementById("regName").value.trim();
-    var email = document.getElementById("regEmail").value.trim();
-    var phone = document.getElementById("regPhone").value.trim();
-    var password = document.getElementById("regPassword").value;
-    if (!name || !email || !password) { showAlert("Please fill all required fields", "danger"); return; }
-    if (password.length < 8) { showAlert("Password must be at least 8 characters", "danger"); return; }
-    try {
-        var r = await fetch("/api/auth/register", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({name, email, phone, password})});
-        var d = await r.json();
-        if (r.ok) {
+      async function doRegister() {
+        var name = document.getElementById("regName").value.trim();
+        var email = document.getElementById("regEmail").value.trim();
+        var phone = document.getElementById("regPhone").value.trim();
+        var password = document.getElementById("regPassword").value;
+        if (!name || !email || !password) {
+          showAlert("Please fill all required fields", "danger");
+          return;
+        }
+        if (password.length < 8) {
+          showAlert("Password must be at least 8 characters", "danger");
+          return;
+        }
+        try {
+          var r = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, phone, password }),
+          });
+          var d = await r.json();
+          if (r.ok) {
             localStorage.setItem("cafe7_access_token", d.access_token);
             localStorage.setItem("cafe7_refresh_token", d.refresh_token);
             localStorage.setItem("cafe7_user", JSON.stringify(d.user));
-            showAlert("Account created! Welcome " + d.user.name + "!", "success");
-            setTimeout(() => window.location.href = "index.html", 1500);
-        } else { showAlert(d.error || "Registration failed", "danger"); }
-    } catch(e) { showAlert("Server error. Is Flask running?", "danger"); }
-}
-</script>
-</body>
+            showAlert(
+              "Account created! Welcome " + d.user.name + "!",
+              "success",
+            );
+            setTimeout(() => (window.location.href = "index.html"), 1500);
+          } else {
+            showAlert(d.error || "Registration failed", "danger");
+          }
+        } catch (e) {
+          showAlert("Server error. Is Flask running?", "danger");
+        }
+      }
+      function forgotPassword() {
+        var email = document.getElementById("loginEmail").value.trim();
+        if (!email) {
+          showAlert("Please enter your email address first", "danger");
+          return;
+        }
+        // For now show a message - full email reset comes in V2
+        showAlert(
+          "Password reset link will be sent to: " +
+            email +
+            " (Email feature coming in V2 - contact admin for now)",
+          "info",
+        );
+      }
+    </script>
+  </body>
 </html>

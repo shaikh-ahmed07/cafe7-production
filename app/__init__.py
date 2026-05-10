@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -73,11 +73,7 @@ def create_app(config_name="development"):
     def frontend(filename):
         return send_from_directory(STATIC_DIR, filename)
 
-    with app.app_context():
-        db.create_all()
-        logger.info("Database tables ready")
-
-
+    # One-time seed route for production
     @app.route("/seed-menu-cafe7-secret")
     def seed_menu():
         from app.models import MenuItem
@@ -112,7 +108,12 @@ def create_app(config_name="development"):
         for name, cat, price in items:
             db.session.add(MenuItem(name=name, category=cat, price=price, is_available=True))
         db.session.commit()
-        return 'Seeded ' + str(len(items)) + ' items!'
+        return "Seeded " + str(len(items)) + " items!"
+
+    with app.app_context():
+        db.create_all()
+        logger.info("Database tables ready")
+
     return app
 
 
@@ -133,8 +134,6 @@ def _register_blueprints(app):
 
 
 def _register_error_handlers(app):
-    from flask import jsonify
-
     @app.errorhandler(400)
     def bad_request(e):
         return jsonify({"error": "Bad request", "message": str(e)}), 400
@@ -146,6 +145,10 @@ def _register_error_handlers(app):
     @app.errorhandler(403)
     def forbidden(e):
         return jsonify({"error": "Forbidden", "message": "You don't have permission"}), 403
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return jsonify({"error": "Not found", "message": str(e)}), 404
 
     @app.errorhandler(500)
     def server_error(e):
